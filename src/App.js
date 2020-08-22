@@ -4,6 +4,7 @@ import './App.css';
 import Word from './Word';
 import Signup from "./Signup";
 import Login from "./Login"
+import SearchBar from "./SearchBar"
 import {BrowserRouter, Route, Switch, NavLink} from 'react-router-dom';
 
 class App extends Component {
@@ -95,10 +96,13 @@ class App extends Component {
        <ul>
         {this.state.letters.map(letter => <NavLink to={"/" + letter} key={letter}> {letter} </NavLink> )}  
       </ul>
+      <div>
+        <SearchBar allWords={this.state.allWords}/>
+      </div>
 
 <Switch>
 <Route path={"/signup"}>
-  <Signup />
+  <Signup setToken={ this.setToken }/>
 </Route>
 <Route path={"/login"}>
   <Login setToken={ this.setToken }/>
