@@ -4,6 +4,7 @@ class Signup extends React.Component{
     state = {
         username: "",
         password: "",
+        password_confirmation: "",
         errors: []
     }
 
@@ -13,8 +14,13 @@ class Signup extends React.Component{
         })
     }
 
-    logInSubmitted = (event) => {
+    signUpSubmitted = (event) => {
         event.preventDefault()
+        if (this.state.password !== this.state.password_confirmation){
+            this.setState({
+                errors: [`Your password and password confirmation do not match, please try again`]
+            })
+        } else {
         fetch("http://localhost:3000/users", {
             method: "POST",
             headers: {
@@ -37,7 +43,7 @@ class Signup extends React.Component{
                 errors: []
             })}
         })
-
+        }
     }
 
     render(){
@@ -49,22 +55,30 @@ class Signup extends React.Component{
         </ul>
 
         <section>
-            <h2>Login</h2>
-            <form  onSubmit={(e) => this.logInSubmitted(e)} >
-                <label htmlFor="log_in_username">Username</label>
-                <input id="log_in_username"
+            <h2>Sign up</h2>
+            <form  onSubmit={(e) => this.signUpSubmitted(e)} >
+                <label htmlFor="sign_ip_username">Username</label>
+                <input id="sign_up_username"
                         type="text"
                         onChange={ this.onChange }
                         name="username"
                         value={ this.state.username }
                        />
                 <br></br>
-            <label  htmlFor="log_in_password">Password</label>    
-                <input  id="log_in_password"
+            <label  htmlFor="sign_up_password">Password</label>    
+                <input  id="sign_up_password"
                         type="password"
                         onChange={ this.onChange }
                         name="password"
                         value={ this.state.password }
+                        />
+                        <br></br>
+            <label  htmlFor="password_confirmation">Password Confirmation</label>    
+                <input  id="password_confirmation"
+                        type="password"
+                        onChange={ this.onChange }
+                        name="password_confirmation"
+                        value={ this.state.passwordConfirmation }
                         />
                         <br></br>
                 <input type="submit"/>

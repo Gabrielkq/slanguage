@@ -4,7 +4,6 @@ import './App.css';
 import Word from './Word';
 import Signup from "./Signup";
 import Login from "./Login"
-import SearchBar from "./SearchBar"
 import {BrowserRouter, Route, Switch, NavLink} from 'react-router-dom';
 
 class App extends Component {
@@ -17,7 +16,7 @@ class App extends Component {
       loggedIn: false,
       allWords: [],
       allDefinitions: [],
-      letters: [ "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+      letters: [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
     }
 
     componentDidMount(){
@@ -96,9 +95,6 @@ class App extends Component {
        <ul>
         {this.state.letters.map(letter => <NavLink to={"/" + letter} key={letter}> {letter} </NavLink> )}  
       </ul>
-      <div>
-        <SearchBar allWords={this.state.allWords}/>
-      </div>
 
 <Switch>
 <Route path={"/signup"}>
@@ -117,8 +113,9 @@ class App extends Component {
       </Route> }
       )}  
 {this.state.allWords.map(word => {
-      return <Route path={"/" + word.spelling} key={word}>
+      return <Route path={"/" + word.spelling} key={word.spelling[0].toUppercase + word.spelling.slice(1)}>
          <Word word={word}
+         allWords={this.state.allWords}
          allDefinitions={this.state.allDefinitions}
          key={word.spelling}
          token={ this.state.token }

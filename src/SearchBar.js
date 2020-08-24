@@ -17,10 +17,10 @@ class SearchBar extends React.Component{
 
     searchSubmitted = e =>{
         e.preventDefault()
-        const searchWord = this.props.allWords.filter(word => word.spelling === this.state.searchTerm)
+        const searchWord = this.props.allWords.filter(word => word.spelling.toUpperCase() === this.state.searchTerm.toUpperCase())
         if (searchWord.length === 0){
             this.setState({
-                errors: ["That word is not in the dictorary"]
+                errors: [`${this.state.searchTerm} is not a word in the dictorary`]
             })
         }else {
             this.setState({
