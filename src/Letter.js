@@ -2,11 +2,11 @@ import React from 'react';
 import { NavLink} from 'react-router-dom';
 import SearchBar from './SearchBar';
 
-function Letter (props){
+class Letter extends React.Component{
 
-        
-        let sortedWords = props.allWords
-                                        .filter(word => word.spelling[0].toUpperCase() === props.letter.toUpperCase())
+        render(){        
+        let sortedWords = this.props.allWords
+                                        .filter(word => word.spelling[0].toUpperCase() === this.props.letter.toUpperCase())
                                         .map(word => word.spelling)
                                         .sort()
       // below is my orignal code, which i'm proud of for it's readability  
@@ -15,9 +15,12 @@ function Letter (props){
         return(
 
                 <div>
-                <SearchBar allWords={props.allWords}/>
+                <SearchBar allWords={this.props.allWords}
+                           user_id={this.props.user_id}
+                           loggedIn={this.props.loggedIn}
+                />
                 <ul>
-                <p>Words starting with the letter {props.letter.toUpperCase()}</p>
+                <p>Words starting with the letter {this.props.letter.toUpperCase()}</p>
 
                 </ul>
                 <p>{sortedWords.map(word => {
@@ -27,7 +30,7 @@ function Letter (props){
 
         
         </div>
-        )
+        )}
     
 
 }

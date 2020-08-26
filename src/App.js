@@ -109,7 +109,9 @@ class App extends Component {
          allWords={this.state.allWords}
          allDefinitions={this.state.allDefinitions}
          key={letter}
-         token={ this.state.token }/>
+         token={ this.state.token }
+         user_id={ this.state.user_id }
+         loggedIn={ this.state.loggedIn }/>
       </Route> }
       )}  
 {this.state.allWords.map(word => {
@@ -119,6 +121,8 @@ class App extends Component {
          allDefinitions={this.state.allDefinitions}
          key={word.spelling}
          token={ this.state.token }
+         user_id={ this.state.user_id }
+         loggedIn={ this.state.loggedIn }
          />
       </Route> }
       )}  
