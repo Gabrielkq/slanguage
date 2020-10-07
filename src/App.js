@@ -16,6 +16,8 @@ class App extends Component {
       loggedIn: false,
       allWords: [],
       allDefinitions: [],
+      newMeaning: "",
+      newExample: "",
       letters: [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
     }
 
@@ -62,7 +64,29 @@ class App extends Component {
       loggedIn: false
       })
     }
+
+    addToState = (event) => {
+     
+      this.setState({
+        [event.target.name]: event.target.value
+      })
+    }
  
+    addUsersDef = (e) =>{
+      e.preventDefault()
+      console.log(this.state.newExample +" " + this.state.newMeaning)
+    }
+
+    removeUsersDef = (delDef) =>{
+      fetch(`http://localhost:3000/definitions/${delDef.id}`, {
+    method: "DELETE"})
+       .then(r => r.json()) 
+      .then(console.log(delDef), () => { 
+        const removeDefArr = this.state.allDefinitions.filter(definition => definition.id !== delDef.id)
+      this.setState({
+        allDefinitions: removeDefArr
+      })})
+    }
  
     render(){
 
@@ -111,18 +135,27 @@ class App extends Component {
          key={letter}
          token={ this.state.token }
          user_id={ this.state.user_id }
-         loggedIn={ this.state.loggedIn }/>
+         loggedIn={ this.state.loggedIn }
+         removeUsersDef={this.removeUsersDef}
+         addUsersDef={this.addUsersDef}/>
       </Route> }
       )}  
 {this.state.allWords.map(word => {
       return <Route path={"/" + word.spelling} key={word.spelling[0].toUppercase + word.spelling.slice(1)}>
-         <Word word={word}
+         <Word 
+         key={word.id}
+         word={word}
          allWords={this.state.allWords}
          allDefinitions={this.state.allDefinitions}
          key={word.spelling}
          token={ this.state.token }
          user_id={ this.state.user_id }
          loggedIn={ this.state.loggedIn }
+         removeUsersDef={this.removeUsersDef}
+         addUsersDef={this.addUsersDef}
+         newExample={this.state.newExample}
+         newMeaning={this.state.newMeaning}
+         addToState={this.addToState}
          />
       </Route> }
       )}  

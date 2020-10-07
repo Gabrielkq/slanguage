@@ -72,7 +72,7 @@ class SearchBar extends React.Component{
             })
     }}
 
-    render() {
+    render() {console.log(this.state.definitionBox)
         if (this.state.redirect) {
           return <Redirect to={this.state.redirect} />
         }
@@ -83,9 +83,9 @@ class SearchBar extends React.Component{
         }
         if (this.state.definitionBox){
         return(<>
-        <ul>{
+         <ul>{
             this.state.errors.map(error => <li>{error}</li>)
-        }</ul>
+        }</ul> 
 
     <p>Fill out to create the word {this.state.searchTerm} in the slanguage dictionary and create it's first definition</p>
     <form onSubmit={e => this.addDeff(e)}>
@@ -105,7 +105,7 @@ class SearchBar extends React.Component{
         <input type="submit"/>
     </form>
 
-<section>
+        < section>
         
             <form  onSubmit={(e) => this.searchSubmitted(e)} >
                 <label htmlFor="search_a_word">Search a Word</label>
@@ -124,12 +124,12 @@ class SearchBar extends React.Component{
 
         </>)
     }
-        else return(<>
+            else return(<>
             <ul>{
                 this.state.errors.map(error => <li>{error}</li>)
             }</ul>
     
-    <section>
+        <section>
             
                 <form  onSubmit={(e) => this.searchSubmitted(e)} >
                     <label htmlFor="search_a_word">Search a Word</label>
