@@ -72,9 +72,31 @@ class App extends Component {
       })
     }
  
-    addUsersDef = (e) =>{
+    addUsersDef = (e, word_id) =>{
       e.preventDefault()
-      console.log(this.state.newExample +" " + this.state.newMeaning)
+      console.log(this.state.newExample +" " + this.state.newMeaning + " " + word_id)
+      fetch('http://localhost:3000/definitions/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          meaning: this.state.newMeaning,
+          example: this.state.newExample,
+          user_id: this.state.user_id,
+          word_id: word_id
+        })
+      })
+      .then(r => r.json())
+      .then(obj => {
+        const newDefArr = [...this.state.allDefinitions, obj]; 
+        console.log(newDefArr)
+        this.setState({
+          allDefinitions: newDefArr
+        })
+        
+      })
     }
 
     removeUsersDef = (delDef) =>{

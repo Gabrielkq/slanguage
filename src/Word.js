@@ -26,7 +26,7 @@ render(){
             
         {wordDefinitions.map(definition => definition.user_id === this.props.user_id
         ?
-           <>  <div key={definition.id}>
+           <>  <div key={definition.user_id}>
                 <h3>Meaning: {definition.meaning}</h3>
                 <h4>Example: {definition.example}</h4>
         <p>your definition user: {definition.user.name}</p>
@@ -37,7 +37,7 @@ render(){
         :  
 
             <>
-           <div key={definition.id}>
+           <div key={definition.user_id}>
                      <h3>Meaning: {definition.meaning}</h3>
         <h4>Example: {definition.example}</h4>
         <p>definition by user: {definition.user.name}</p>
@@ -60,7 +60,7 @@ render(){
                 <p>fill out here to add definition </p>
                 <section>
             <h2>add Definition</h2>
-           <form  onSubmit={(e) => this.props.addUsersDef(e)} >
+           <form  onSubmit={(e) => this.props.addUsersDef(e, this.props.word.id)} >
                 <label htmlFor="meaning">meaning</label>
                 <input id="meaning"
                         type="text"
@@ -86,7 +86,7 @@ render(){
             <h1>Word Spelling: {this.props.word.spelling[0].toUpperCase() + this.props.word.spelling.slice(1)} </h1>
                 
             {wordDefinitions.map(definition =>{
-                return <><div key={definition.id}>
+                return <><div key={definition.user_id}>
                     <h3>Meaning: {definition.meaning}</h3>
                     <h4>Example: {definition.example}</h4>
             <p>definition by user: {definition.user.name}</p>

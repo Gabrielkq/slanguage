@@ -72,7 +72,7 @@ class SearchBar extends React.Component{
             })
     }}
 
-    render() {console.log(this.state.definitionBox)
+    render() {
         if (this.state.redirect) {
           return <Redirect to={this.state.redirect} />
         }
