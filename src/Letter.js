@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink} from 'react-router-dom';
-import SearchBar from './SearchBar';
+
 
 class Letter extends React.Component{
 
@@ -15,10 +15,6 @@ class Letter extends React.Component{
         return(
 
                 <div>
-                <SearchBar allWords={this.props.allWords}
-                           user_id={this.props.user_id}
-                           loggedIn={this.props.loggedIn}
-                />
                 <ul>
                 <p>Words starting with the letter {this.props.letter.toUpperCase()}</p>
 

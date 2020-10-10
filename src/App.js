@@ -3,7 +3,9 @@ import Letter from './Letter';
 import './App.css';
 import Word from './Word';
 import Signup from "./Signup";
-import Login from "./Login"
+import Login from "./Login";
+import SearchBar from './SearchBar';
+import { Redirect } from "react-router-dom";
 import {BrowserRouter, Route, Switch, NavLink} from 'react-router-dom';
 
 class App extends Component {
@@ -11,6 +13,7 @@ class App extends Component {
  
 
     state = {
+      redirect: null,
       token: null,
       user_id: null,
       loggedIn: false,
@@ -43,6 +46,15 @@ class App extends Component {
 
     }
 
+    letterRoute = (e) =>{
+      e.preventDefault()
+      this.setState({
+        letters: [...this.state.letters, this.state.addLetter]
+      })
+
+    }
+    
+
     setToken = data => {
       localStorage.token = data.token
      localStorage.user_id = data.user_id
@@ -71,6 +83,30 @@ class App extends Component {
         [event.target.name]: event.target.value
       })
     }
+
+
+    addWord = (spelling) =>{
+      fetch("http://localhost:3000/words", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              'Accept': 'application/json'  
+          },
+          body: JSON.stringify({
+              spelling: spelling
+          })
+          }
+      )
+      .then(r => r.json())
+      .then(obj => this.setState({
+        allWords: [...this.state.allWords, obj]
+      })
+      )
+      .then(() => {
+        this.setState({
+          redirect: this.state.allWords.slice(-1)[0].spelling})
+        })
+    }
  
     addUsersDef = (e, word_id) =>{
       e.preventDefault()
@@ -89,14 +125,10 @@ class App extends Component {
         })
       })
       .then(r => r.json())
-      .then(obj => {
-        const newDefArr = [...this.state.allDefinitions, obj]; 
-        console.log(newDefArr)
-        this.setState({
-          allDefinitions: newDefArr
-        })
-        
+      .then(obj => this.setState({
+        allDefinitions: [...this.state.allDefinitions, obj]
       })
+      )
     }
 
     removeUsersDef = (delDef) =>{
@@ -107,15 +139,17 @@ class App extends Component {
         const removeDefArr = this.state.allDefinitions.filter(definition => definition.id !== delDef.id)
       this.setState({
         allDefinitions: removeDefArr
-      })})
+      })
+    })
     }
  
     render(){
 
-
   return (
-    <BrowserRouter>
+    <BrowserRouter>    
     <div className="App">
+      { this.state.redirect ? <Redirect to={this.state.redirect} /> : <> </>  
+      }
        <div>
          {!!this.state.loggedIn ?
         <button onClick={() => this.logout()}>
@@ -135,31 +169,31 @@ class App extends Component {
 
       <div>
 
-
       </div>
-        
+      <SearchBar allWords={this.state.allWords}
+                           user_id={this.state.user_id}
+                           loggedIn={this.state.loggedIn}
+                           addWord={this.addWord}/>
+
        <ul>
         {this.state.letters.map(letter => <NavLink to={"/" + letter} key={letter}> {letter} </NavLink> )}  
       </ul>
 
 <Switch>
+    
 <Route path={"/signup"}>
   <Signup setToken={ this.setToken }/>
 </Route>
 <Route path={"/login"}>
   <Login setToken={ this.setToken }/>
 </Route>
+
 {this.state.letters.map(letter => {
       return <Route path={"/" + letter}  key={letter}>
          <Letter letter={letter}
          allWords={this.state.allWords}
-         allDefinitions={this.state.allDefinitions}
          key={letter}
-         token={ this.state.token }
-         user_id={ this.state.user_id }
-         loggedIn={ this.state.loggedIn }
-         removeUsersDef={this.removeUsersDef}
-         addUsersDef={this.addUsersDef}/>
+      />
       </Route> }
       )}  
 {this.state.allWords.map(word => {
@@ -169,7 +203,6 @@ class App extends Component {
          word={word}
          allWords={this.state.allWords}
          allDefinitions={this.state.allDefinitions}
-         key={word.spelling}
          token={ this.state.token }
          user_id={ this.state.user_id }
          loggedIn={ this.state.loggedIn }
@@ -178,6 +211,7 @@ class App extends Component {
          newExample={this.state.newExample}
          newMeaning={this.state.newMeaning}
          addToState={this.addToState}
+      
          />
       </Route> }
       )}  
