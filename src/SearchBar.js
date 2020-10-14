@@ -7,7 +7,13 @@ class SearchBar extends React.Component{
         searchTerm: "",
         errors: [],
         redirect: null,
-        wordBox: false,
+       
+    }
+
+    onFocus = () => {
+        this.setState({
+            searchTerm: ""
+        })
     }
 
     onChange = event =>{
@@ -24,6 +30,7 @@ class SearchBar extends React.Component{
 
     searchSubmitted = e =>{
         e.preventDefault()
+        const target = e.target.searchTerm.value
         const searchWord = this.props.allWords.filter(word => word.spelling.toUpperCase() === this.state.searchTerm.toUpperCase())
        if (this.state.searchTerm.length === 0){
            this.setState({
@@ -35,10 +42,8 @@ class SearchBar extends React.Component{
                 errors: [`${this.state.searchTerm} is not a word in the dictorary`]
             })
         }else if (searchWord.length === 0 && this.props.loggedIn){
-            this.setState({
-            errors: [`${this.state.searchTerm} is not a word in the dictorary, you're logged in, would you like to create the first definition?`],
-            wordBox: true
-            })}
+          this.props.displayWordBox(target)
+        }
         else {
             this.setState({
                redirect: searchWord[0].spelling
@@ -48,13 +53,7 @@ class SearchBar extends React.Component{
     render() {
         if (this.state.redirect) {
           return <Redirect to={this.state.redirect} />
-        }
-        if (this.state.wordBox){
-            return(<> <p>Click button to add the word which will allow you to create a definition</p>
-            <button onClick={() => this.props.addWord(this.state.searchTerm)}>add {this.state.searchTerm} to dictionary</button>
-           </> )
-        }
-        
+        }   
             else return(<>
             <ul>{
                 this.state.errors.map(error => <li>{error}</li>)
@@ -68,6 +67,7 @@ class SearchBar extends React.Component{
                             type="text"
                             onChange={ this.onChange }
                             name="searchTerm"
+                            onFocus={ this.onFocus } 
                             value={ this.state.searchTerm }
                            />
                     <input type="submit"/>
@@ -76,6 +76,13 @@ class SearchBar extends React.Component{
         
                 
             </section>
+
+            {this.props.wordBox ? 
+            <> <p>Click button to add the word which will allow you to create a definition</p>
+            <button onClick={() => this.props.addWord(this.props.wordFromSearch)}>add {this.props.wordFromSearch} to dictionary</button>
+           </>
+           :
+           <></>}
     
             </>
 

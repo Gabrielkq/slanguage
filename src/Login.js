@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from "react-router-dom";
 
 class Login extends React.Component{
 
@@ -42,6 +43,10 @@ class Login extends React.Component{
     }
 
     render(){
+        if (this.props.loggedIn) {
+            return <Redirect to="/" />
+          }
+
         return( <>
         <ul>
             {

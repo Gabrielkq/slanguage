@@ -1,6 +1,5 @@
 
 import React from 'react';
-import SearchBar from './SearchBar';
 
 
 class Word extends React.Component{
@@ -17,10 +16,7 @@ render(){
     return(       
       
         <div>
-         <SearchBar allWords={this.props.allWords}
-                    user_id={this.props.user_id}
-                    loggedIn={this.props.loggedIn}
-        />
+     
           
         <h1>Word Spelling: {this.props.word.spelling[0].toUpperCase() + this.props.word.spelling.slice(1)} </h1>
             
@@ -53,10 +49,7 @@ render(){
         return(       
           
             <div>
-             <SearchBar allWords={this.props.allWords}
-                        user_id={this.props.user_id}
-                        loggedIn={this.props.loggedIn}
-            />
+            
                 <p>fill out here to add definition </p>
                 <section>
             <h2>add Definition</h2>

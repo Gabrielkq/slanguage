@@ -19,6 +19,8 @@ class App extends Component {
       loggedIn: false,
       allWords: [],
       allDefinitions: [],
+      wordFromSearch: "",
+      wordBox: false,
       newMeaning: "",
       newExample: "",
       letters: [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
@@ -46,13 +48,6 @@ class App extends Component {
 
     }
 
-    letterRoute = (e) =>{
-      e.preventDefault()
-      this.setState({
-        letters: [...this.state.letters, this.state.addLetter]
-      })
-
-    }
     
 
     setToken = data => {
@@ -105,7 +100,8 @@ class App extends Component {
       .then(() => {
         this.setState({
           redirect: this.state.allWords.slice(-1)[0].spelling})
-        })
+        });
+        this.hideWordBox()
     }
  
     addUsersDef = (e, word_id) =>{
@@ -143,6 +139,20 @@ class App extends Component {
     })
     }
  
+    displayWordBox = (target) => {
+     let wordFromSearch = target
+      this.setState({
+        wordBox: true,
+        wordFromSearch
+      })
+    }
+
+    hideWordBox = () => {
+      this.setState({
+        wordBox: false
+      })
+    }
+
     render(){
 
   return (
@@ -168,24 +178,31 @@ class App extends Component {
       </div>
 
       <div>
-
+      <ul>
+        {this.state.letters.map(letter => <NavLink onClick={this.hiderWordBox} to={"/" + letter} key={letter}> {letter} </NavLink> )}  
+      </ul>
       </div>
+
+
       <SearchBar allWords={this.state.allWords}
                            user_id={this.state.user_id}
                            loggedIn={this.state.loggedIn}
-                           addWord={this.addWord}/>
+                           addWord={this.addWord}
+                           displayWordBox={this.displayWordBox}
+                           wordBox={this.state.wordBox}
+                           wordFromSearch={this.state.wordFromSearch}/>
 
-       <ul>
-        {this.state.letters.map(letter => <NavLink to={"/" + letter} key={letter}> {letter} </NavLink> )}  
-      </ul>
+   
 
 <Switch>
     
 <Route path={"/signup"}>
-  <Signup setToken={ this.setToken }/>
+  <Signup   loggedIn={ this.state.loggedIn}
+            setToken={ this.setToken }/>
 </Route>
 <Route path={"/login"}>
-  <Login setToken={ this.setToken }/>
+  <Login  loggedIn={ this.state.loggedIn}
+          setToken={ this.setToken }/>
 </Route>
 
 {this.state.letters.map(letter => {
