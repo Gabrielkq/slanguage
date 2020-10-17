@@ -22,26 +22,26 @@ render(){
             
         {wordDefinitions.map(definition => definition.user_id === this.props.user_id
         ?
-           <>  <div key={definition.user_id}>
+             <div key={definition.user_id}>
                 <h3>Meaning: {definition.meaning}</h3>
                 <h4>Example: {definition.example}</h4>
-        <p>your definition user: {definition.user.name}</p>
+                 <p>your definition user: {definition.user.name}</p>
                 
             <button onClick={() => this.props.removeUsersDef(definition)}>delete my definition</button>
-            </div> <hr />
-           </>
+            </div> 
+           
         :  
 
-            <>
+            
            <div key={definition.user_id}>
                      <h3>Meaning: {definition.meaning}</h3>
         <h4>Example: {definition.example}</h4>
         <p>definition by user: {definition.user.name}</p>
         
     
-    <button onClick={(e) => likeIt(definition)}>like</button></div> <hr />
+    <button onClick={() => likeIt(definition)}>like</button></div> 
    
-            </>
+            
         )}
     
         </div>
@@ -57,7 +57,7 @@ render(){
                 <label htmlFor="meaning">meaning</label>
                 <input id="meaning"
                         type="text"
-                        onChange={(e) => this.props.addToState(e)}
+                        onChange={this.props.addToState}
                         name="newMeaning"
                         value={ this.props.newMeaning }
                        />
@@ -65,7 +65,7 @@ render(){
             <label  htmlFor="example">example</label>    
                 <input  id="example"
                         type="text"
-                        onChange={(e) => this.props.addToState(e)}
+                        onChange={this.props.addToState}
                         name="newExample"
                         value={ this.props.newExample }
                         />
@@ -94,7 +94,21 @@ render(){
 
 
     else return (
-        <div><p>not logged in</p></div>
+        <div>   
+            <p>Login or Signup to Create words and definitions</p>
+            
+             <h1>Word Spelling: {this.props.word.spelling[0].toUpperCase() + this.props.word.spelling.slice(1)} </h1>
+                
+        {wordDefinitions.map(definition =>{
+            return <><div key={definition.user_id}>
+                <h3>Meaning: {definition.meaning}</h3>
+                <h4>Example: {definition.example}</h4>
+        <p>definition by user: {definition.user.name}</p>
+                
+            
+            <button onClick={(e) => likeIt(definition)}>placeholder like button</button></div> <hr /></>
+           
+        })}</div>
     )
 
 }}

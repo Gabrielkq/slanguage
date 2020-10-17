@@ -1,6 +1,4 @@
 import React from 'react';
-import { Redirect } from "react-router-dom";
-
 class SearchBar extends React.Component{
 
     state = {
@@ -32,7 +30,8 @@ class SearchBar extends React.Component{
         e.preventDefault()
         const target = e.target.searchTerm.value
         const searchWord = this.props.allWords.filter(word => word.spelling.toUpperCase() === this.state.searchTerm.toUpperCase())
-       if (this.state.searchTerm.length === 0){
+        this.props.redirectFromSearch("/")
+        if (this.state.searchTerm.length === 0){
            this.setState({
                errors: [`Your word must be at least one character long.`]
            })
@@ -45,16 +44,12 @@ class SearchBar extends React.Component{
           this.props.displayWordBox(target)
         }
         else {
-            this.setState({
-               redirect: searchWord[0].spelling
-            })
+            this.props.redirectFromSearch(searchWord[0].spelling)
+    
     }}
 
     render() {
-        if (this.state.redirect) {
-          return <Redirect to={this.state.redirect} />
-        }   
-            else return(<>
+            return(<>
             <ul>{
                 this.state.errors.map(error => <li>{error}</li>)
             }</ul>
