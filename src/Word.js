@@ -12,7 +12,7 @@ render(){
         alert("liked " + d.meaning + " by " + d.user.name)
     }
 
-    if (this.props.loggedIn && usersDef.length === 1 ){
+    if (this.props.user_id && usersDef.length === 1 && this.props.definitionList){
     return(       
       
         <div>
@@ -45,7 +45,7 @@ render(){
         )}
     
         </div>
-    )} else     if (this.props.loggedIn && usersDef.length === 0 ){
+    )} else     if (this.props.user_id   && usersDef.length === 0 && this.props.definitionList){
         return(       
           
             <div>
@@ -93,7 +93,9 @@ render(){
         )}
 
 
-    else return (
+    else if (this.props.definitionList){
+        return (
+         
         <div>   
             <p>Login or Signup to Create words and definitions</p>
             
@@ -109,6 +111,10 @@ render(){
             <button onClick={(e) => likeIt(definition)}>placeholder like button</button></div> <hr /></>
            
         })}</div>
+    )}
+    else return(
+        <div></div>
+
     )
 
 }}

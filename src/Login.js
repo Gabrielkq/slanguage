@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 class Login extends React.Component{
 
     state = {
-        username: "",
+        name: "",
         password: "",
         errors: []
     }
@@ -23,7 +23,7 @@ class Login extends React.Component{
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                name: this.state.username,
+                name: this.state.name,
                  password: this.state.password
             })
         }).then(r => r.json())
@@ -33,7 +33,7 @@ class Login extends React.Component{
                     errors: data.errors
                 })
             }
-            else if (!data.errors){
+            else{
             this.props.setToken(data);
             this.setState({
                 errors: []
@@ -42,10 +42,11 @@ class Login extends React.Component{
 
     }
 
+
     render(){
-        if (this.props.loggedIn) {
-            return <Redirect to="/" />
-          }
+      
+
+    if (this.props.user_id) {this.props.history.push("/")}
 
         return( <>
         <ul>
@@ -61,8 +62,8 @@ class Login extends React.Component{
                 <input id="log_in_username"
                         type="text"
                         onChange={ this.onChange }
-                        name="username"
-                        value={ this.state.username }
+                        name="name"
+                        value={ this.state.name }
                        />
                 <br></br>
             <label  htmlFor="log_in_password">Password</label>    

@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 
 class Signup extends React.Component{
     state = {
-        username: "",
+        name: "",
         password: "",
         password_confirmation: "",
         errors: []
@@ -28,7 +28,7 @@ class Signup extends React.Component{
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                name: this.state.username,
+                name: this.state.name,
                  password: this.state.password
             })
         }).then(r => r.json())
@@ -38,7 +38,7 @@ class Signup extends React.Component{
                     errors: data.errors
                 })
             }
-            else if (!data.errors){
+            else {
             this.props.setToken(data);
             this.setState({
                 errors: []
@@ -48,7 +48,7 @@ class Signup extends React.Component{
     }
 
     render(){
-        if (this.props.loggedIn) {
+        if (this.props.user_id) {
             return <Redirect to="/" />
           }
         return( <>
@@ -65,8 +65,8 @@ class Signup extends React.Component{
                 <input id="sign_up_username"
                         type="text"
                         onChange={ this.onChange }
-                        name="username"
-                        value={ this.state.username }
+                        name="name"
+                        value={ this.state.name }
                        />
                 <br></br>
             <label  htmlFor="sign_up_password">Password</label>    

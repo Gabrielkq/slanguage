@@ -15,16 +15,27 @@ class Letter extends React.Component{
         return(
 
                 <div>
+              
+                
+                { this.props.wordList ?
+                 <>
+                 <p>Words starting with the letter {this.props.letter.toUpperCase()}</p>
                 <ul>
-                <p>Words starting with the letter {this.props.letter.toUpperCase()}</p>
-
-                </ul>
                 <p>{sortedWords.map(word => {
 
-                 return <li key={word}>  <NavLink to={"/" + word}> {word[0].toUpperCase() + word.slice(1)} </NavLink> </li>
-                })}</p>
+                 return <li key={word}>  
+                                <NavLink to={`/${word}`} onClick={this.props.clearErrors}       > 
+                                {word[0].toUpperCase() + word.slice(1)}
+                                </NavLink> </li>
+                 
+                   })}
+                </p>
 
-        
+                </ul>
+                </>
+                : 
+                <div></div>
+                   }             
         </div>
         )}
     
