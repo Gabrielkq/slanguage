@@ -1,4 +1,5 @@
 import React from 'react';
+
 class SearchBar extends React.Component{
 
     state = {
@@ -28,13 +29,14 @@ class SearchBar extends React.Component{
                if (this.state.searchTerm.length === 0){
             this.props.addSearchErrorsToState([`Your search term must be at least one character long.`])
         }
-        else if (searchWord.length === 0 && !this.props.loggedIn){
-            this.props.addSearchErrorsToState([`${this.state.searchTerm} is not a word in the dictorary`])
+        else if (searchWord.length === 0 && !this.props.user_id){
+      
             
-         }else if (searchWord.length === 0 && this.props.loggedIn){
+         }else if (searchWord.length === 0 && this.props.user_id){
            this.props.displayAddWordBox(target)
          }
          else {
+             this.props.hideAddWordBox();
              this.props.redirectFromSearch(searchWord[0].spelling)
      
          }
@@ -64,7 +66,7 @@ class SearchBar extends React.Component{
                 <ul>{
                 this.props.errors.map(error => <li>{error}</li>)
             }</ul>
-            </section>
+         </section>
 
             {this.props.wordBox ? 
             <> <p>Click button to add {this.props.wordFromSearch} to the dictionary which will allow you to create the first definition</p>

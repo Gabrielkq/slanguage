@@ -1,21 +1,13 @@
 import React from 'react';
-import { Redirect } from "react-router-dom";
+import { useState } from 'react'
 
-class Login extends React.Component{
+const Login = (props) => {
 
-    state = {
-        name: "",
-        password: "",
-        errors: []
-    }
+    const [name, setName] = useState("")
+    const [password, setPassword] = useState("")
+    const [errors, setErrors] = useState([])
 
-    onChange = event => {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-    }
-
-    logInSubmitted = (event) => {
+   const logInSubmitted = (event) => {
         event.preventDefault()
         fetch("http://localhost:3000/login", {
             method: "POST",
@@ -23,55 +15,51 @@ class Login extends React.Component{
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                name: this.state.name,
-                 password: this.state.password
+                name,
+                 password
             })
         }).then(r => r.json())
         .then(data => {
             if (data.errors) {
-                this.setState({
-                    errors: data.errors
-                })
+                setErrors(data.errors)
             }
             else{
-            this.props.setToken(data);
-            this.setState({
-                errors: []
-            })}
+            props.setToken(data);
+            }
         })
 
     }
 
 
-    render(){
+    {
       
 
-    if (this.props.user_id) {this.props.history.push("/")}
+    if (props.user_id) {props.history.push("/")}
 
         return( <>
         <ul>
             {
-                this.state.errors.map(error => <li> { error } </li>)
+                errors.map(error => <li> { error } </li>)
             }
         </ul>
 
         <section>
             <h2>Login</h2>
-            <form  onSubmit={(e) => this.logInSubmitted(e)} >
+            <form  onSubmit={logInSubmitted} >
                 <label htmlFor="log_in_username">Username</label>
                 <input id="log_in_username"
                         type="text"
-                        onChange={ this.onChange }
+                        onChange={(e) => setName(e.target.value)}
                         name="name"
-                        value={ this.state.name }
+                        value={ name }
                        />
                 <br></br>
             <label  htmlFor="log_in_password">Password</label>    
                 <input  id="log_in_password"
                         type="password"
-                        onChange={ this.onChange }
+                        onChange={e => setPassword(e.currentTarget.value)}
                         name="password"
-                        value={ this.state.password }
+                        value={ password }
                         />
                         <br></br>
                 <input type="submit"/>

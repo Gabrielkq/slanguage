@@ -4,6 +4,7 @@ import './App.css';
 import Word from './Word';
 import Signup from "./Signup";
 import Login from "./Login";
+import Navbar from "./Navbar"
 import SearchBar from './SearchBar';
 import { Route, Switch, NavLink } from 'react-router-dom';
 
@@ -12,7 +13,7 @@ class App extends Component {
 
 
   state = {
-   //token: null,
+  //  token: null,
     user_id: null,
    // loggedIn: true,
     allWords: [],
@@ -44,7 +45,8 @@ class App extends Component {
             user_id: res.id
           })
         }
-    })}
+      })
+    }
     fetch(`http://localhost:3000/words`)
       .then(r => r.json())
       .then(data => {
@@ -58,7 +60,8 @@ class App extends Component {
         this.setState({
           allDefinitions: data
         })
-      })
+      }
+    )
 
 
   }
@@ -80,7 +83,8 @@ class App extends Component {
 
   logout = () => {
     this.setState({
-      user_id: null
+      user_id: null,
+      // token: null
     }, () => {
       localStorage.removeItem("token")
     })
@@ -218,13 +222,28 @@ class App extends Component {
     this.props.history.push(`/${redirect}`)
   }
 
+
   render() {
 
     return (
 
       <div className="App">
-
-        <div>
+        <Navbar   key={"searchBar235711"}
+          allWords={this.state.allWords}
+           user_id={this.state.user_id}
+       letters={this.state.letters}
+           addWord={this.addWord}
+          displayAddWordBox={this.displayAddWordBox}
+          wordBox={this.state.wordBox}
+          wordFromSearch={this.state.wordFromSearch}
+         redirectFromSearch={this.redirectFromSearch}
+          addSearchErrorsToState={this.addSearchErrorsToState}
+         errors={this.state.errors}
+        hideAddWordBox={this.hideAddWordBox}
+        logout={this.logout}
+      />
+   
+        {/* <div>
           {!!this.state.user_id ?
             <button onClick={() => this.logout()}>
               logout</button>
@@ -265,7 +284,7 @@ class App extends Component {
             hideAddWordBox={this.hideAddWordBox} />
 
        
-        </div>
+        </div> */}
 
 
 
