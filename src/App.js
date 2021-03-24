@@ -5,8 +5,7 @@ import Word from './Word';
 import Signup from "./Signup";
 import Login from "./Login";
 import Navbar from "./Navbar"
-import SearchBar from './SearchBar';
-import { Route, Switch, NavLink } from 'react-router-dom';
+import { Route, Switch} from 'react-router-dom';
 
 class App extends Component {
 
@@ -293,7 +292,8 @@ class App extends Component {
           <Route path={"/signup"}>
             <Signup //loggedIn={this.state.loggedIn}
              user_id={this.state.user_id}
-              setToken={this.setToken} />
+              setToken={this.setToken}
+              history={this.props.history} />
           </Route>
           <Route path={"/login"}>
             <Login //loggedIn={this.state.loggedIn}
