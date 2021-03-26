@@ -289,18 +289,33 @@ class App extends Component {
 
         <Switch>
 
-          <Route path={"/signup"}>
+          <Route path="/login" render={()=> 
+              <Login user_id={this.state.user_id}
+                     setToken={this.setToken}
+                     history={this.props.history}
+              />
+          }/>
+  
+          <Route path="/signup" render={()=> 
+              <Signup user_id={this.state.user_id}
+                     setToken={this.setToken}
+                     history={this.props.history}
+              />
+          }/>
+
+
+          {/* <Route path={"/signup"}>
             <Signup //loggedIn={this.state.loggedIn}
              user_id={this.state.user_id}
               setToken={this.setToken}
               history={this.props.history} />
-          </Route>
-          <Route path={"/login"}>
+          </Route> */}
+          {/* <Route path={"/login"}>
             <Login //loggedIn={this.state.loggedIn}
               user_id={this.state.user_id}
               setToken={this.setToken} 
               history={this.props.history}/>
-          </Route>
+          </Route> */}
 
           {this.state.letters.map(letter => {
             return <Route path={"/" + letter} key={letter}>
@@ -315,10 +330,10 @@ class App extends Component {
           )}
 
           {this.state.allWords.map(word => {
-            return <Route path={`/${word.spelling}`} key={word.spelling[0].toUppercase + word.spelling.slice(1)}
+            return <Route path={`/${word.spelling}`} key={word.spelling[0].toUpperCase() + word.spelling.slice(1)}
               render={() => {
                 return (<Word
-                  key={word.spelling[0].toUppercase + word.spelling.slice(1)}
+                  key={word.spelling[0].toUpperCase() + word.spelling.slice(1)}
                   word={word}
                   allWords={this.state.allWords}
                   allDefinitions={this.state.allDefinitions}
