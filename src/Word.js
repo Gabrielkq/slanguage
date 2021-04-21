@@ -1,33 +1,32 @@
-
 import React from 'react';
 
-
-class Word extends React.Component{
+const Word = (
+    {allDefinitions, word, user_id, definitionList, removeUsersDef, addUsersDef, addToState, newMeaning, newExample} 
+    ) =>{
 
     
-render(){
-    const wordDefinitions = this.props.allDefinitions.filter(definition => definition.word_id === this.props.word.id)
-    const usersDef = wordDefinitions.filter(definition => definition.user_id === this.props.user_id)
-    const likeIt = d =>{
-        alert("liked " + d.meaning + " by " + d.user.name)
-    }
 
-    if (this.props.user_id && usersDef.length === 1 && this.props.definitionList){
+    const wordDefinitions = allDefinitions.filter(definition => definition.word_id === word.id)
+    const usersDef = wordDefinitions.filter(definition => definition.user_id === user_id)
+    const likeIt = d => alert("liked " + d.meaning + " by " + d.user.name)
+    
+
+    if (user_id && usersDef.length === 1 && definitionList){
     return(       
       
         <div>
      
           
-        <h1>Word Spelling: {this.props.word.spelling[0].toUpperCase() + this.props.word.spelling.slice(1)} </h1>
+        <h1>Word Spelling: {word.spelling[0].toUpperCase() + word.spelling.slice(1)} </h1>
             
-        {wordDefinitions.map(definition => definition.user_id === this.props.user_id
+        {wordDefinitions.map(definition => definition.user_id === user_id
         ?
              <div key={definition.user_id}>
                 <h3>Meaning: {definition.meaning}</h3>
                 <h4>Example: {definition.example}</h4>
                  <p>your definition user: {definition.user.name}</p>
                 
-            <button onClick={() => this.props.removeUsersDef(definition)}>delete my definition</button>
+            <button onClick={() => removeUsersDef(definition)}>delete my definition</button>
             </div> 
            
         :  
@@ -45,7 +44,7 @@ render(){
         )}
     
         </div>
-    )} else     if (this.props.user_id   && usersDef.length === 0 && this.props.definitionList){
+    )} else     if (user_id   && usersDef.length === 0 && definitionList){
         return(       
           
             <div>
@@ -53,21 +52,21 @@ render(){
                 <p>fill out here to add definition </p>
                 <section>
             <h2>add Definition</h2>
-           <form  onSubmit={(e) => this.props.addUsersDef(e, this.props.word.id)} >
+           <form  onSubmit={(e) => addUsersDef(e, word.id)} >
                 <label htmlFor="meaning">meaning</label>
                 <input id="meaning"
                         type="text"
-                        onChange={this.props.addToState}
+                        onChange={addToState}
                         name="newMeaning"
-                        value={ this.props.newMeaning }
+                        value={ newMeaning }
                        />
                 <br></br>
             <label  htmlFor="example">example</label>    
                 <input  id="example"
                         type="text"
-                        onChange={this.props.addToState}
+                        onChange={addToState}
                         name="newExample"
-                        value={ this.props.newExample }
+                        value={ newExample }
                         />
                         <br></br>
                 <input type="submit"/>
@@ -76,7 +75,7 @@ render(){
     
             
         </section>
-            <h1>Word Spelling: {this.props.word.spelling[0].toUpperCase() + this.props.word.spelling.slice(1)} </h1>
+            <h1>Word Spelling: {word.spelling[0].toUpperCase() + word.spelling.slice(1)} </h1>
                 
             {wordDefinitions.map(definition =>{
                 return <><div key={definition.user_id}>
@@ -93,13 +92,13 @@ render(){
         )}
 
 
-    else if (this.props.definitionList){
+    else if (definitionList){
         return (
          
         <div>   
             <p>Login or Signup to Create words and definitions</p>
             
-             <h1>Word Spelling: {this.props.word.spelling[0].toUpperCase() + this.props.word.spelling.slice(1)} </h1>
+             <h1>Word Spelling: {word.spelling[0].toUpperCase() + word.spelling.slice(1)} </h1>
                 
         {wordDefinitions.map(definition =>{
             return <><div key={definition.user_id}>
@@ -117,6 +116,6 @@ render(){
 
     )
 
-}}
+}
 
 export default Word

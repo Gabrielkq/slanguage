@@ -1,13 +1,7 @@
 import React from 'react';
 import { NavLink} from 'react-router-dom';
-import {
-        useRouteMatch
-      } from "react-router-dom";
-
-      
 
 const Letter = (props) => {
-        const { path, url } = useRouteMatch();
                 
         let sortedWords = props.allWords
                                         .filter(word => word.spelling[0].toUpperCase() === props.letter.toUpperCase())
